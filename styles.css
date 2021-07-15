@@ -131,7 +131,7 @@ p {
 }
 
 @media screen and (max-width: 420px) {
-    input[type="submit"] {
+    input:not([type="text"], [id="advanced"]) {
         visibility: hidden;
         display: none;
     }
