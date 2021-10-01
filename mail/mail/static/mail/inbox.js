@@ -5,10 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
+  
+  // Submit-button listener
+  document.querySelector('form').addEventListener('submit', () => get_data(event));
 
   // By default, load the inbox
   load_mailbox('inbox');
 });
+
 
 function compose_email() {
 
@@ -23,6 +27,28 @@ function compose_email() {
   document.querySelector('#compose-body').value = '';
 
 }
+
+
+function get_data(event) {
+
+  event.preventDefault();
+
+  // Retrieve form data and post to API
+  fetch('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+      recipients: document.querySelector('#compose-recipients').value,
+      subject: document.querySelector('#compose-subject').value,
+      body: document.querySelector('#compose-body').value
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+    console.log(result);
+    load_mailbox('sent');
+  });
+}
+
 
 function load_mailbox(mailbox) {
   
@@ -44,7 +70,12 @@ function load_mailbox(mailbox) {
       // Display emails
       for (let i = 0; i < emails.length; i++) {
         var el = document.createElement('div');
-        el.innerHTML = `<b>Sender:</b> ${emails[i].sender}<br><b>Subject:</b> ${emails[i].subject}<br><b>Received:</b> ${emails[i].timestamp}`
+        if (`${mailbox}` == 'sent') {
+          el.innerHTML = `<b>Recipients:</b> ${emails[i].recipients}<br><b>Subject:</b> ${emails[i].subject}<br><b>Sent:</b> ${emails[i].timestamp}`
+        }
+        else {
+          el.innerHTML = `<b>Sender:</b> ${emails[i].sender}<br><b>Subject:</b> ${emails[i].subject}<br><b>Received:</b> ${emails[i].timestamp}`
+        }
         el.addEventListener('click', () => {
           load_email(emails[i].id);
         })
