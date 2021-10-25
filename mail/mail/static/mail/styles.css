@@ -6,6 +6,7 @@ textarea {
     border: 1px solid black;
     margin-bottom: 10px;
     padding: 5px;
+    cursor: pointer;
 }
 
 .emailRead {
@@ -14,4 +15,9 @@ textarea {
 
 .emailDetails {
     display: block;
+}
+
+#archiveBTN {
+    margin-right:auto;
+    margin-top: 50px;
 }
