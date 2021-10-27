@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var archiveBTN = document.querySelector('#archiveBTN');
   if (archiveBTN) {
     archiveBTN.addEventListener('click', () => {
-      console.log(archiveBTN.value);
+
       if (archiveBTN.classList.contains('moveArchive')) {
         fetch(`/emails/${archiveBTN.value}`, {
           method: 'PUT',
@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
           })
         })
       }
+
       location.reload();
+      
     });
   }
 
@@ -38,18 +40,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function compose_email() {
+function compose_email(rec='', sub='', body='', time='') {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#email-display').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
   document.querySelector('#archiveBTN').style.display = 'none';
+  document.querySelector('#reply').style.display = 'none';
+  
 
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
-  document.querySelector('#compose-body').value = '';
+  document.querySelector('#compose-body').value = ''; 
+  
+
+  // Pre-populate fields if replying to email
+  if (!rec=='') {
+    document.querySelector('#compose-recipients').value = rec;
+    document.querySelector('#compose-subject').value = sub;
+    document.querySelector('#compose-body').value = `On ${time} ${rec} wrote: "${body}"`; 
+  }
 
 }
 
@@ -83,6 +95,8 @@ function load_mailbox(mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-display').style.display = 'none';
   document.querySelector('#archiveBTN').style.display = 'none';
+  document.querySelector('#reply').style.display = 'none';
+
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -121,9 +135,14 @@ function load_email(id, mailbox) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-display').style.display = 'block';
   document.querySelector('#archiveBTN').style.display = 'block';
+  document.querySelector('#reply').style.display = 'none';
 
   // Archive-button behaviour. Classlist modified to determine action on click.
   var button = document.querySelector('#archiveBTN');
+  var replyBTN = document.querySelector('#reply');
+  if (mailbox == 'inbox') {
+    replyBTN.style.display = "block"
+  }
   if (mailbox == 'sent') {
     button.style.display = "none";
   } else {
@@ -134,14 +153,12 @@ function load_email(id, mailbox) {
       button.classList.add('moveInbox');
       if (button.classList.contains('moveArchive')) {
         button.classList.remove('moveArchive');
-        console.log(button);
       }
     } else {
         button.innerHTML = 'Archive Email';
         button.classList.add('moveArchive');
         if (button.classList.contains('moveInbox')) {
           button.classList.remove('moveInbox');
-          console.log(button);
       }
     }
   }
@@ -163,6 +180,20 @@ function load_email(id, mailbox) {
     method: 'PUT',
     body: JSON.stringify({
       read: true
+    })
+  })
+
+  // Collect data to populate reply fields
+  replyBTN.addEventListener('click', () => {
+    fetch(`/emails/${id}`)
+    .then(response => response.json())
+    .then(email => {
+      var subject = `${email.subject}`;
+      if (subject.indexOf("RE:") >= 0) {
+        subject = subject.replace('RE: ', '')
+      }      
+      compose_email(`${email.sender}`, `RE: ${subject}`,
+      `${email.timestamp}`, `${email.body}`);
     })
   })
   
