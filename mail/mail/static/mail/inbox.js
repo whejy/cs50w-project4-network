@@ -58,7 +58,11 @@ function compose_email(rec='', sub='', body='', time='') {
   if (!body=='') {
     document.querySelector('#compose-recipients').value = rec;
     document.querySelector('#compose-subject').value = sub;
-    document.querySelector('#compose-body').value = `On ${time}, ${rec} wrote: "${body}"`; 
+    document.querySelector('#compose-body').value = `\n\nOn ${time}, ${rec} wrote: "${body}"`; 
+    document.querySelector('#compose-body').focus();
+
+    // Set cursor to beginning of email
+    document.querySelector('#compose-body').setSelectionRange(0, 0);
   }
 
 }
