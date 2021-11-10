@@ -1,18 +1,26 @@
+body {
+    margin-top: 50px;
+}
+
+
 textarea {
     min-height: 400px;
     width: 100%;
     resize: none;
 }
 
+
 #noedit {
     user-select: none;
     border: none;
-    min-height: 100px;
+    height: 100%;
 }
+
 
 #noedit:focus {
     outline: none;
 }
+
 
 .sender {
     font-size:larger;
@@ -20,11 +28,13 @@ textarea {
     margin-bottom: 15px;
 }
 
+
 .time {
     font-size: smaller;
     font-weight: lighter;
     padding-top: 3px;
 }
+
 
 .preview {
     display: flex;
@@ -56,6 +66,7 @@ textarea {
     display: block;
 }
 
+
 #email-display {
     width: auto;
 }
@@ -64,6 +75,7 @@ textarea {
 #emails-view {
     position: relative;
 }
+
 
 #wrapper {
     display: flex;
