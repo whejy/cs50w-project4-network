@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (archiveBTN) {
     archiveBTN.addEventListener('click', () => {
 
-      // Determine which action to take when archive button is clicked
+      // Determine whether to archive or un-archive email
       if (archiveBTN.classList.contains('moveArchive')) {
         action = true;
       } else {
@@ -59,9 +59,9 @@ function compose_email(rec='', sub='', body='', time='') {
     document.querySelector('#compose-recipients').value = rec;
     document.querySelector('#compose-subject').value = sub;
     document.querySelector('#compose-body').value = `\n\nOn ${time}, ${rec} wrote: "${body}"`; 
-    document.querySelector('#compose-body').focus();
 
-    // Set cursor to beginning of email
+    // Set cursor to beginning of email-body
+    document.querySelector('#compose-body').focus();
     document.querySelector('#compose-body').setSelectionRange(0, 0);
   }
 
@@ -92,7 +92,7 @@ function get_data(event) {
 
 function load_mailbox(mailbox) {
   
-  // Show the mailbox and hide other views
+  // Show the mailbox and hide other views and buttons
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-display').style.display = 'none';
@@ -108,15 +108,23 @@ function load_mailbox(mailbox) {
   .then(response => response.json())
   .then(emails => {
 
-      // Display emails
+      // Display emails list
       for (let i = 0; i < emails.length; i++) {
         var el = document.createElement('div');
+        const previewLimit = 70;
+        var ellipses = "";
+        if (emails[i].body.length > previewLimit) {
+          ellipses = "...";
+        }
+        var preview = emails[i].body.substring(0, previewLimit) + ellipses;
         if (`${mailbox}` == 'sent') {
-          el.innerHTML = `<b>Recipients:</b> ${emails[i].recipients} <br><b>Subject:</b> ${emails[i].subject}<br><b>Sent:</b> ${emails[i].timestamp}`
+          el.innerHTML = `<b>To:</b><div class="sender"> ${emails[i].recipients}</div>${emails[i].subject}<div class="time">${emails[i].timestamp}</div><span class="preview">${preview}</span>`
         }
         else {
-          el.innerHTML = `<b>Sender:</b> ${emails[i].sender}<br><b>Subject:</b> ${emails[i].subject}<br><b>Received:</b> ${emails[i].timestamp}`
+          el.innerHTML = `<div class="sender">${emails[i].sender}</div>${emails[i].subject}<div class="time">${emails[i].timestamp}</div><span class="preview">${preview}</span>`
         }
+
+        // Retreive email if clicked on
         el.addEventListener('click', () => {
           load_email(emails[i].id, mailbox);
         })
@@ -126,6 +134,7 @@ function load_mailbox(mailbox) {
         }
         document.getElementById("emails-view").appendChild(el);
       }
+
       if (emails.length < 1) {
         document.getElementById("emails-view").innerHTML += "<i>No emails to display</i>";
       }
@@ -142,7 +151,8 @@ function load_email(id, mailbox) {
   document.querySelector('#archiveBTN').style.display = 'block';
   document.querySelector('#reply').style.display = 'block';
 
-  // Archive-button behaviour. Classlist modified to determine action on click.
+  // Archive/ un-archive button behaviour. Classlist modified to determine which action
+  // to take on click.
   var archBTN = document.querySelector('#archiveBTN');
   var replyBTN = document.querySelector('#reply');
   if (mailbox == 'sent') {
@@ -170,11 +180,11 @@ function load_email(id, mailbox) {
   .then(response => response.json())
   .then(email => {
     document.getElementById('email-display').innerHTML = `
-    <span class="emailDetails"> <b>Sender:</b> ${email.sender} </span>
-    <span class="emailDetails"> <b>Recipients:</b> ${email.recipients}</span>
+    <span class="emailDetails"> <b>From:</b> ${email.sender} </span>
+    <span class="emailDetails"> <b>To:</b> ${email.recipients}</span>
     <span class="emailDetails"> <b>Subject:</b> ${email.subject}</span>
     <b>Received:</b> ${email.timestamp}<br><br>
-    ${email.body}`;
+    <textarea readonly id="noedit">${email.body}</textarea>`;
   });
 
   // Mark email as read
@@ -191,6 +201,8 @@ function load_email(id, mailbox) {
     .then(response => response.json())
     .then(email => {
       var subject = `${email.subject}`;
+
+      // Ensure only one 'RE:' is present in title
       if (subject.indexOf("RE:") >= 0) {
         subject = subject.replace('RE: ', '')
       }      
