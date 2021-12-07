@@ -17,36 +17,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }) 
     
 
-    // Retrieve new post data if user is logged in
+    // Submit new post data via API
     var loggedIn = document.querySelector('#create-post');
     if (loggedIn) {
         loggedIn.addEventListener('click', () => {
-            var post = document.querySelector('textarea').value;
-            if (post != '') {
-                console.log(post);
+            var postData = document.querySelector('textarea').value;
+            if (postData != '') {
+                console.log(postData);
+                fetch('/post', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      post: postData,
+                    })
+                  })
+                  .then(response => response.json())
+                  .then(result => {
+                    console.log(result);
+                  }); 
             }
             else {
-                console.log('no content');
+                console.log("NO CONTENT");
             }
         });
     }
+
+
 });
 
-// function load_posts() {
-    
-//     document.querySelector('#posts-display').style.display = 'block';
-//     document.querySelector('#posts-list').style.display = 'block';
-
-//     // Get content of new post
-//     document.querySelector('#create-post').addEventListener('click', () => {
-//         var post = document.querySelector('textarea').value;
-//         if (post != '') {
-//             console.log(post);
-//         }
-//         else {
-//             console.log('no content');
-//         }
-//     });
 
 function loadPage(page) {
     
@@ -58,6 +55,12 @@ function loadPage(page) {
     // Display requested page
     if (page) {
         document.querySelector(`#${page}`).style.display = 'block';
+
+        // Clear out composition field
+        var newPost = document.querySelector('textarea');
+        if (newPost) {
+            newPost.value = '';
+        }
     }
 
     // Display nested divs
