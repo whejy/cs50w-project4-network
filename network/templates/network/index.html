@@ -1,5 +1,28 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-    TODO
+<div id="posts-page">
+    {% if user.is_authenticated %}
+    <div id="posts-display" class="page">
+        <span id="new-post">
+            <textarea placeholder="New post..."></textarea>
+            <button class="submit-button" id="create-post">Post</button>
+        </span>
+    </div>
+    {% endif %}
+    <div class="page center">
+        HERE ARE THE POSTS
+    </div>
+</div>
+    <div id="profile-page" class="page">
+        PROFILE
+    </div>
+    <div id="following-page" class="page">
+        FOLLOWING
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/script.js' %}"></script>
 {% endblock %}
