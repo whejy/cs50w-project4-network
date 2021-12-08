@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Display posts page on login
     window.onload=function(){
-        document.getElementById("posts").click();
+        document.getElementById('posts').click();
       };    
 
 
@@ -17,11 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }) 
     
 
-    // Submit new post data via API
+    // Submit new post data
     var loggedIn = document.querySelector('#create-post');
+
     if (loggedIn) {
         loggedIn.addEventListener('click', () => {
             var postData = document.querySelector('textarea').value;
+
             if (postData != '') {
                 console.log(postData);
                 fetch('/post', {
@@ -33,8 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
                   .then(response => response.json())
                   .then(result => {
                     console.log(result);
+                    loadPage('posts-page');
                   }); 
             }
+            
             else {
                 console.log("NO CONTENT");
             }
@@ -70,5 +74,18 @@ function loadPage(page) {
         postsArray.forEach(div => {
             div.style.display = 'block';
         })
+
+        // Display all posts
+        fetch('/post')
+        .then(response => response.json())
+        .then(posts => {
+            document.querySelector("#posts-list").innerHTML = '';
+            for (let i = 0; i < posts.length; i++) {
+                var el = document.createElement('div');
+                el.innerHTML = `${posts[i].post}`;
+                el.classList.add("post");
+                document.querySelector("#posts-list").appendChild(el);
+            };
+        });
     }; 
 }

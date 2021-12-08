@@ -13,10 +13,15 @@
     margin: 15px;
 }
 
+
 #new-post {
     width: 100%;
 }
 
+.post {
+    border: lightskyblue 1px solid;
+    padding: 25px;
+}
 
 textarea, .submit-button {
     display: block;

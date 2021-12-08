@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import User
+from .models import User, Posts, Likes
 
 
 def index(request):
@@ -16,16 +16,23 @@ def index(request):
 
 
 @csrf_exempt
-def post(request):
+def posts(request):
+    posts = Posts.objects.all()
 
-    # Submitting new post must be via POST
+    # If GET request, display all posts in reverse chronological order
     if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)  
+        posts = posts.order_by("-timestamp").all()
+        return JsonResponse([post.serialize() for post in posts], safe=False)
 
+    # User is creating a new post
     data = json.loads(request.body)
     post = data.get("post", "")
-    print(post)
-    return JsonResponse({"message": "Post sent successfully."}, status=201)
+    new_post = Posts(
+        user=request.user,
+        post=post
+    )
+    new_post.save()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
 
 
 def login_view(request):
