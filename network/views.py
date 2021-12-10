@@ -14,11 +14,18 @@ from .models import User, Posts, Likes
 
 def index(request):
     posts = Posts.objects.all().order_by("-timestamp")
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 10)
+    total_pages = paginator.num_pages
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
+
     lower_range = range(1, posts.number)
-    upper_range = range(posts.number + 1, paginator.num_pages + 1)
+    upper_range = range(posts.number + 1, total_pages + 1)
+
+    # If all posts fit on one page exclude front-end pagination
+    if total_pages == 1:
+        lower_range = 1
+            
     return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range})    
 
 
