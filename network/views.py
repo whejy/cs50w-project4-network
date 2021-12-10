@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,17 +13,17 @@ from .models import User, Posts, Likes
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Posts.objects.all().order_by("-timestamp")
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+    lower_range = range(1, posts.number)
+    upper_range = range(posts.number + 1, paginator.num_pages + 1)
+    return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range})    
 
 
 @csrf_exempt
 def posts(request):
-    posts = Posts.objects.all()
-
-    # If GET request, display all posts in reverse chronological order
-    if request.method != "POST":
-        posts = posts.order_by("-timestamp").all()
-        return JsonResponse([post.serialize() for post in posts], safe=False)
 
     # User is creating a new post
     data = json.loads(request.body)
@@ -32,6 +33,7 @@ def posts(request):
         post=post
     )
     new_post.save()
+    posts = Posts.objects.all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 

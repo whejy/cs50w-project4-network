@@ -9,7 +9,6 @@
 
 #posts-display, #posts-list {
     border:lightgray 1px solid;
-    padding: 20px;
     margin: 15px;
 }
 
@@ -19,9 +18,18 @@
 }
 
 .post {
-    border: lightskyblue 1px solid;
+    border: lightgray 1px solid;
     padding: 25px;
+    position: relative;
 }
+
+.post-details {
+    position: absolute;
+    right: 5px;
+    bottom: 0px;
+    font-style: italic;
+}
+
 
 textarea, .submit-button {
     display: block;

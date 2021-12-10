@@ -12,6 +12,34 @@
     </div>
     {% endif %}
     <div class="page center" id="posts-list">
+        {% for post in posts %}
+        <div class="post">
+            {{post.post}}
+            {{post.user}}
+            {{post.timestamp}}
+        </div>
+        {% endfor %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center"">
+                {% if posts.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{posts.previous_page_number}}">Previous</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
+                {% endif %}
+                {% for page in lower %}
+                    <li class="page-item"><a class="page-link" id="page{{page}}" href="?page={{page}}">{{page}}</a></li>
+                {% endfor %}
+                    <li class="page-item active"><a class="page-link" id="page{{page}}" href="?page={{page}}">{{posts.number}}</a></li>
+                {% for page in upper %}
+                    <li class="page-item"><a class="page-link" id="page{{page}}" href="?page={{page}}">{{page}}</a></li>
+                {% endfor %}    
+                {% if posts.has_next %}            
+                    <li class="page-item"><a class="page-link" href="?page={{posts.next_page_number}}">Next</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>
+                {% endif %}
+            </ul>
+          </nav>        
     </div>
 </div>
     <div id="profile-page" class="page">

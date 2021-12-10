@@ -74,18 +74,7 @@ function loadPage(page) {
         postsArray.forEach(div => {
             div.style.display = 'block';
         })
-
-        // Display all posts
-        fetch('/post')
-        .then(response => response.json())
-        .then(posts => {
-            document.querySelector("#posts-list").innerHTML = '';
-            for (let i = 0; i < posts.length; i++) {
-                var el = document.createElement('div');
-                el.innerHTML = `${posts[i].post}`;
-                el.classList.add("post");
-                document.querySelector("#posts-list").appendChild(el);
-            };
-        });
     }; 
+
+    
 }
