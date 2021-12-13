@@ -15,7 +15,9 @@
         {% for post in posts %}
         <div class="post">
             <span class="post-author">{{post.user}} says...</span>
+            <span class="follow">Follow</span>
             <div class="post-content">{{post.post}}</div>
+            <span class="like" data-id="{{post.id}}">Like</span>
             <span class="post-timestamp">{{post.timestamp}}</span>
         </div>
         {% endfor %}

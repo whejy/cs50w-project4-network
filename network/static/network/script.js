@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
             var postData = document.querySelector('textarea').value;
 
             if (postData != '') {
-                console.log(postData);
                 fetch('/post', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -35,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   .then(response => response.json())
                   .then(result => {
                     console.log(result);
-                    loadPage('posts-page');
+                    //loadPage('posts-page');
+                    window.location.href = "";
                   }); 
             }
             
@@ -74,7 +74,18 @@ function loadPage(page) {
         postsArray.forEach(div => {
             div.style.display = 'block';
         })
+
+        // Like button behaviour
+        document.querySelectorAll('.like').forEach(a => {
+            a.onclick = function() {
+                if (a.innerHTML = "like") {
+                    this.innerHTML = "Unlike";
+                } else {
+                    this.innerHTML = "Like"
+                }
+                console.log(this.dataset.id)
+            }
+        })
     }; 
 
-    
 }

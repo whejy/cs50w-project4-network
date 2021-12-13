@@ -39,11 +39,29 @@
     font-size: larger;
 }
 
+.follow {
+    position: absolute;
+    left: 250px;
+    top: 80px;
+    font-size: smaller;
+    cursor: pointer;
+    color: blue;
+}
+
 .post-content {
     padding: 50px;
     font-size: xx-large;
+    max-width: 65%;
+    margin: auto;
+    margin-top: 30px;
+    text-align: center;
 }
 
+
+.like {
+    cursor: pointer;
+    color: blue;
+}
 
 textarea, .submit-button {
     display: block;
