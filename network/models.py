@@ -6,6 +6,11 @@ class User(AbstractUser):
     pass
 
 
+class Likes(models.Model):
+    post = models.ForeignKey("Posts", on_delete=models.CASCADE)
+    liked_by = models.ForeignKey("User", on_delete=models.CASCADE)
+
+
 class Posts(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     post = models.TextField(blank=False)
@@ -18,10 +23,3 @@ class Posts(models.Model):
             "post": self.post,
             "timestamp": self.timestamp
         }
-
-
-
-class Likes(models.Model):
-    post = models.ForeignKey("Posts", on_delete=models.CASCADE)
-    liked_by = models.ForeignKey("User", on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)

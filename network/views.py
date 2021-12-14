@@ -1,5 +1,6 @@
 import json
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +14,8 @@ from .models import User, Posts, Likes
 
 
 def index(request):
-    posts = Posts.objects.all().order_by("-timestamp")
+    posts = (Posts.objects.all().order_by("-timestamp"))
+    # test = posts.values()
     paginator = Paginator(posts, 10)
     total_pages = paginator.num_pages
     page_number = request.GET.get('page')
@@ -22,11 +24,25 @@ def index(request):
     lower_range = range(1, posts.number)
     upper_range = range(posts.number + 1, total_pages + 1)
 
+    # liked = Likes.objects.get(liked_by=request.user, post=)
+
     # If all posts fit on one page exclude front-end pagination
     if total_pages == 1:
         lower_range = 1
-            
+
     return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range})    
+
+
+# Submit a 'like'
+@csrf_exempt
+@login_required
+def like(request, post_id):
+    liked = Likes(
+        liked_by=User(id=request.user.id),
+        post=Posts(id=post_id)
+    )
+    liked.save()
+    return HttpResponseRedirect(reverse("index"))
 
 
 @csrf_exempt

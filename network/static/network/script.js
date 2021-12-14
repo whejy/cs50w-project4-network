@@ -14,7 +14,27 @@ document.addEventListener('DOMContentLoaded', function() {
         button.onclick = function() {
             loadPage(this.dataset.page);
         }
-    }) 
+    })
+
+    
+    // Like button behaviour and submitting post-id for db update
+    var likeButton = document.querySelectorAll('.like');
+    if (likeButton) {
+        likeButton.forEach(a => {
+            a.onclick = function() {
+                // fetch('/like')
+                // .then(response => response.JSON())
+                // if (a.innerHTML = "Like") {
+                //     this.innerHTML = "Unlike";
+                // } else {
+                //     this.innerHTML = "Like"
+                // }
+
+                like(this.dataset.id);
+                console.log(this.dataset.id);
+            }
+        })
+    }    
     
 
     // Submit new post data
@@ -49,6 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// user likes a post
+function like(post) {
+    fetch(`like/${post}`, {
+        method: "POST",
+        body: JSON.stringify({
+            post: post
+        })
+    })
+}
+
+
 function loadPage(page) {
     
     // Hide all pages
@@ -74,18 +105,8 @@ function loadPage(page) {
         postsArray.forEach(div => {
             div.style.display = 'block';
         })
+    };
 
-        // Like button behaviour
-        document.querySelectorAll('.like').forEach(a => {
-            a.onclick = function() {
-                if (a.innerHTML = "like") {
-                    this.innerHTML = "Unlike";
-                } else {
-                    this.innerHTML = "Like"
-                }
-                console.log(this.dataset.id)
-            }
-        })
-    }; 
+    //likes();
 
 }
