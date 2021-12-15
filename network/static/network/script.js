@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 //     this.innerHTML = "Like"
                 // }
 
-                like(this.dataset.id);
+                like(this.dataset.id, this.dataset.action);
                 console.log(this.dataset.id);
             }
         })
@@ -70,11 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // user likes a post
-function like(post) {
-    fetch(`like/${post}`, {
+function like(post, action) {
+    fetch('like', {
         method: "POST",
         body: JSON.stringify({
-            post: post
+            post: post,
+            action: action
         })
     })
 }

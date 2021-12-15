@@ -23,3 +23,6 @@ class Posts(models.Model):
             "post": self.post,
             "timestamp": self.timestamp
         }
+    
+    def liked(self):
+        return Likes.objects.get(post=Posts(id=self.id)).liked_by

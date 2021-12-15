@@ -15,7 +15,6 @@ from .models import User, Posts, Likes
 
 def index(request):
     posts = (Posts.objects.all().order_by("-timestamp"))
-    # test = posts.values()
     paginator = Paginator(posts, 10)
     total_pages = paginator.num_pages
     page_number = request.GET.get('page')
@@ -24,24 +23,33 @@ def index(request):
     lower_range = range(1, posts.number)
     upper_range = range(posts.number + 1, total_pages + 1)
 
-    # liked = Likes.objects.get(liked_by=request.user, post=)
-
-    # If all posts fit on one page exclude front-end pagination
+    # If all posts fit on one page exclude pagination
     if total_pages == 1:
         lower_range = 1
 
     return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range})    
 
 
-# Submit a 'like'
+# Submit a 'like' or 'unlike'
 @csrf_exempt
 @login_required
-def like(request, post_id):
-    liked = Likes(
-        liked_by=User(id=request.user.id),
-        post=Posts(id=post_id)
-    )
-    liked.save()
+def like(request):
+    data = json.loads(request.body)
+    post_id = data.get("post", "")
+    action = data.get("action", "")
+    if action == "like":
+        liked = Likes(
+            liked_by=User(id=request.user.id),
+            post=Posts(id=post_id)
+        )
+        liked.save()  
+    else:
+        # delete like
+        unliked = Likes.objects.get(
+            liked_by=User(id=request.user.id),
+            post=Posts(id=post_id)
+        )
+        unliked.delete()
     return HttpResponseRedirect(reverse("index"))
 
 

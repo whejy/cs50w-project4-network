@@ -11,5 +11,5 @@ urlpatterns = [
 
     #API Routes
     path("post", views.posts, name="posts"),
-    path("like/<int:post_id>", views.like, name="like")
+    path("like", views.like, name="like")
 ]
