@@ -68,6 +68,10 @@
     color: blue;
 }
 
+.like-count {
+    color: blue;
+}
+
 textarea, .submit-button {
     display: block;
     margin-left: auto;

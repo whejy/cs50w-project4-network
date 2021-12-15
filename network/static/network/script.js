@@ -71,9 +71,9 @@ function like(post, action) {
     .then(response => response.json())
     .then(result => {
         console.log(result);
-        // like button behaviour
+        var likeCount = document.body.querySelector(`.like-count[id="${result.post}"]`);
         var likeButton = document.body.querySelector(`.like[data-id="${result.post}"]`)
-        // if user clicked a 'like' button, change it to an 'unlike'
+        // If user clicked a 'like' button, change it to an 'unlike'
         if (result.action == "like") {
             likeButton.innerHTML = "Unlike";
             likeButton.setAttribute("data-action", "unlike");
@@ -81,6 +81,8 @@ function like(post, action) {
             likeButton.innerHTML = "Like";
             likeButton.setAttribute("data-action", "like");            
         }
+        // Update like count
+        likeCount.innerHTML = result.count;
     })
 }
 

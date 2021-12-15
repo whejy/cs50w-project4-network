@@ -50,7 +50,12 @@ def like(request):
             post=Posts(id=post_id)
         )
         unliked.delete()
-    return JsonResponse({"post": post_id, "action": action})
+
+    count = Likes.objects.filter(
+                post=Posts(id=post_id)
+            ).count()
+
+    return JsonResponse({"post": post_id, "action": action, "count": count})
 
 
 @csrf_exempt

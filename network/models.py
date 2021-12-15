@@ -26,3 +26,6 @@ class Posts(models.Model):
     
     def liked(self):
         return Likes.objects.get(post=Posts(id=self.id)).liked_by
+
+    def like_count(self):
+        return Likes.objects.filter(post=Posts(id=self.id)).count()

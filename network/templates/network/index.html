@@ -17,6 +17,7 @@
             <span class="post-author">{{post.user}} says...</span>
             <span class="follow">Follow</span>
             <div class="post-content">{{post.post}}</div>
+            <span class="like-count" id="{{post.id}}">{{post.like_count}}</span>
             {% if user.is_authenticated %}
                 {% if post.liked == user %}
                     <span class="like" data-action="unlike" data-id="{{post.id}}">Unlike</span>
