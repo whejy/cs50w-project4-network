@@ -50,7 +50,7 @@ def like(request):
             post=Posts(id=post_id)
         )
         unliked.delete()
-    return HttpResponseRedirect(reverse("index"))
+    return JsonResponse({"post": post_id, "action": action})
 
 
 @csrf_exempt

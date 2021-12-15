@@ -22,16 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (likeButton) {
         likeButton.forEach(a => {
             a.onclick = function() {
-                // fetch('/like')
-                // .then(response => response.JSON())
-                // if (a.innerHTML = "Like") {
-                //     this.innerHTML = "Unlike";
-                // } else {
-                //     this.innerHTML = "Like"
-                // }
-
                 like(this.dataset.id, this.dataset.action);
-                console.log(this.dataset.id);
             }
         })
     }    
@@ -54,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
                   .then(response => response.json())
                   .then(result => {
                     console.log(result);
-                    //loadPage('posts-page');
                     window.location.href = "";
                   }); 
             }
@@ -69,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// user likes a post
+// user likes/ unlikes a post
 function like(post, action) {
     fetch('like', {
         method: "POST",
@@ -77,6 +67,20 @@ function like(post, action) {
             post: post,
             action: action
         })
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result);
+        // like button behaviour
+        var likeButton = document.body.querySelector(`.like[data-id="${result.post}"]`)
+        // if user clicked a 'like' button, change it to an 'unlike'
+        if (result.action == "like") {
+            likeButton.innerHTML = "Unlike";
+            likeButton.setAttribute("data-action", "unlike");
+        } else {
+            likeButton.innerHTML = "Like";
+            likeButton.setAttribute("data-action", "like");            
+        }
     })
 }
 
@@ -107,7 +111,5 @@ function loadPage(page) {
             div.style.display = 'block';
         })
     };
-
-    //likes();
 
 }
