@@ -17,12 +17,13 @@
             <span class="post-author">{{post.user}} says...</span>
             <span class="follow">Follow</span>
             <div class="post-content">{{post.post}}</div>
+            <i class="fa fa-heart"></i>            
             <span class="like-count" id="{{post.id}}">{{post.like_count}}</span>
             {% if user.is_authenticated %}
-                {% if post.liked == user %}
-                    <span class="like" data-action="unlike" data-id="{{post.id}}">Unlike</span>
+                {% if user.id in post.liked %}
+                    <div class="like" data-action="unlike" data-id="{{post.id}}">Unlike</div>
                 {% else %}
-                    <span class="like" data-action="like" data-id="{{post.id}}">Like</span>
+                    <div class="like" data-action="like" data-id="{{post.id}}">Like</div>
                 {% endif %}
             {% endif %}
             <span class="post-timestamp">{{post.timestamp}}</span>

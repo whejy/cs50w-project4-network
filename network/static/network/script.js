@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     
-    // Like button behaviour and submitting post-id for db update
+    // User clicks like button
     var likeButton = document.querySelectorAll('.like');
     if (likeButton) {
         likeButton.forEach(a => {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// user likes/ unlikes a post
+// User likes/ unlikes a post
 function like(post, action) {
     fetch('like', {
         method: "POST",

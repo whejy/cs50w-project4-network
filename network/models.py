@@ -25,7 +25,7 @@ class Posts(models.Model):
         }
     
     def liked(self):
-        return Likes.objects.get(post=Posts(id=self.id)).liked_by
+        return Likes.objects.filter(post=Posts(id=self.id)).values_list('liked_by', flat=True)
 
     def like_count(self):
         return Likes.objects.filter(post=Posts(id=self.id)).count()

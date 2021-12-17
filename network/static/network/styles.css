@@ -68,9 +68,11 @@
     color: blue;
 }
 
+
 .like-count {
-    color: blue;
+    color:red;
 }
+
 
 textarea, .submit-button {
     display: block;
@@ -83,4 +85,9 @@ textarea, .submit-button {
 .submit-button {
     width: 10%;
     height: 35px;
+}
+
+.fa-heart {
+    font-size:14px;
+    color:red; 
 }
