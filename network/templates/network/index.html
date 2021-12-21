@@ -15,7 +15,9 @@
         {% for post in posts %}
         <div class="post">
             <span class="post-author">{{post.user}} says...</span>
-            <span class="follow">Follow</span>
+            {% if post.user != user and user.is_authenticated %}
+                <span class="follow">Follow <i class="fa fa-user-plus"></i></span>
+            {% endif %}            
             <div class="post-content">{{post.post}}</div>
             <i class="fa fa-heart"></i>            
             <span class="like-count" id="{{post.id}}">{{post.like_count}}</span>
@@ -54,12 +56,12 @@
           </nav>        
     </div>
 </div>
-    <div id="profile-page" class="page">
-        PROFILE
-    </div>
-    <div id="following-page" class="page">
-        FOLLOWING
-    </div>
+<div id="profile-page" class="page" style="display:none">
+    PROFILE
+</div>
+<div id="following-page" class="page" style="display:none">
+    FOLLOWING
+</div>
 {% endblock %}
 
 {% block script %}

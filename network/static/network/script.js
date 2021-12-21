@@ -2,10 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Display posts page on login
-    window.onload=function(){
-        document.getElementById('posts').click();
-      };    
-
+    // window.onload=function(){
+    //     document.getElementById('posts').click();
+    //   };    
 
     // Select all buttons
     document.querySelectorAll('.nav-link').forEach(button => {
@@ -46,7 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
                   .then(result => {
                     console.log(result);
                     window.location.href = "";
-                  }); 
+                  });
+
+                  // Render first page of pagination
+                  document.getElementById('page').click();
             }
             
             else {
@@ -112,6 +114,9 @@ function loadPage(page) {
         postsArray.forEach(div => {
             div.style.display = 'block';
         })
+        
+        // Render first page of pagination
+        document.getElementById('page').click();
     };
 
 }

@@ -89,5 +89,10 @@ textarea, .submit-button {
 
 .fa-heart {
     font-size:14px;
-    color:red; 
+    color:red;
+}
+
+.fa-user-plus {
+    font-size: 14px;
+    color: black;
 }
