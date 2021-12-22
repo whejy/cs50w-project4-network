@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import User, Posts, Likes
+from .models import User, Posts, Likes, Follow
 
 
 def index(request):
@@ -60,6 +60,31 @@ def like(request):
 
     return JsonResponse({"post": post_id, "action": action, "count": count})
 
+
+# Follow/ unfollow a user
+@csrf_exempt
+@login_required
+def follow(request):
+    data = json.loads(request.body)
+    author = data.get("author", "")
+    action = data.get("action", "")
+    followee = User.objects.get(username=author)
+    follower = User.objects.get(username=request.user)
+
+    if action == "follow":
+        follow = Follow.objects.create(
+            followee=followee,
+            follower=follower
+        )          
+        follow.save()
+    else:
+        unfollow = Follow.objects.get(
+            followee=followee,
+            follower=follower
+        )
+        unfollow.delete()
+
+    return JsonResponse({"author": author, "action": action})
 
 @csrf_exempt
 def posts(request):

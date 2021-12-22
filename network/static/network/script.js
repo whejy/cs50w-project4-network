@@ -24,7 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 like(this.dataset.id, this.dataset.action);
             }
         })
-    }    
+    }
+    
+
+    // User clicks follow button
+    var followButton = document.querySelectorAll('.follow');
+    if (followButton) {
+        followButton.forEach(a => {
+            a.onclick = function() {
+                follow(this.dataset.id, this.dataset.action);
+            }
+        })
+    }
     
 
     // Submit new post data
@@ -85,6 +96,34 @@ function like(post, action) {
         }
         // Update like count
         likeCount.innerHTML = result.count;
+    })
+}
+
+
+// User follows/ unfollows another user
+function follow(author, action) {
+    fetch('follow', {
+        method: "POST",
+        body: JSON.stringify({
+            author: author,
+            action: action
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        var followButton = document.querySelectorAll(`.follow[data-id="${result.author}"]`)
+        // If user clicks a 'follow' button, change it to 'unfollow'
+        if (result.action == "follow") {
+            followButton.forEach(button => {
+                button.innerHTML = "Unfollow";
+                button.setAttribute("data-action", "unfollow")
+            });
+        } else {
+            followButton.forEach(button => {
+                button.innerHTML = "Follow";
+                button.setAttribute("data-action", "follow")
+            });          
+        }
     })
 }
 

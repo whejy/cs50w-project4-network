@@ -16,7 +16,12 @@
         <div class="post">
             <span class="post-author">{{post.user}} says...</span>
             {% if post.user != user and user.is_authenticated %}
-                <span class="follow">Follow <i class="fa fa-user-plus"></i></span>
+                {% if user.id in post.followed %}
+                    <span class="follow" data-action="unfollow" data-id="{{post.user}}">Unfollow <i class="fa fa-user-minus"></i></span>
+                {% else %}
+                    <span class="follow" data-action="follow" data-id="{{post.user}}">Follow <i class="fa fa-user-plus"></i></span>
+                {% endif %}
+                <i class="fas fa-user-minus"></i>                
             {% endif %}            
             <div class="post-content">{{post.post}}</div>
             <i class="fa fa-heart"></i>            
