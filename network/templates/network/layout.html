@@ -24,11 +24,11 @@
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                  <a class="nav-link" id="posts" href="#" data-page="posts-page">All Posts</a>
+                  <a class="nav-link" id="posts" href="{% url 'index' %}" data-page="posts-page">All Posts</a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-page="following-page">Following</a>
+                        <a class="nav-link" href="{% url 'following' following='following' %}" data-page="following-page">Following</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>

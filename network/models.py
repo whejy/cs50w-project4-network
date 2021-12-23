@@ -9,7 +9,7 @@ class User(AbstractUser):
 class Follow(models.Model):
     followee = models.ForeignKey("User", on_delete=models.CASCADE, related_name="followee")
     follower = models.ForeignKey("User", on_delete=models.CASCADE, related_name="follower")
-
+    
 
 class Likes(models.Model):
     post = models.ForeignKey("Posts", on_delete=models.CASCADE)

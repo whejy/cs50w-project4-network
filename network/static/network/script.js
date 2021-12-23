@@ -155,7 +155,17 @@ function loadPage(page) {
         })
         
         // Render first page of pagination
-        document.getElementById('page').click();
+        var firstPage = document.getElementById('page');
+        if (firstPage) {
+            firstPage.click();
+        }
     };
+    
+    // Hide New-Post form
+    if (page == 'following-page') {
+        let newPost = document.getElementById('posts-display');
+        newPost.style.display = 'none';
+        console.log(newPost);
+    }
 
 }

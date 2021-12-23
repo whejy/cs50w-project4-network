@@ -4,12 +4,12 @@
 {% block body %}
 <div id="posts-page">
     {% if user.is_authenticated %}
-    <div id="posts-display" class="page">
+    <section id="posts-display" class="page">
         <span id="new-post">
             <textarea placeholder="New post..."></textarea>
             <button class="submit-button" id="create-post">Post</button>
         </span>
-    </div>
+    </section>
     {% endif %}
     <div class="page center" id="posts-list">
         {% for post in posts %}

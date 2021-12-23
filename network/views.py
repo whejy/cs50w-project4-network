@@ -12,17 +12,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Posts, Likes, Follow
 
+@csrf_exempt
+def index(request, following=None):
 
-def index(request):
     posts = (Posts.objects.all().order_by("-timestamp"))
-    # test = Likes.objects.filter(liked_by=User(id=request.user.id))
-    # for post in test:
-    #     print(post.post.id)
+
+    # If displaying 'following' page
+    if following:
+        followed = Follow.objects.filter(follower=request.user.id).values_list('followee')
+        posts = Posts.objects.filter(user__in=followed).order_by("-timestamp")
+    
+    # Generate pagination
     paginator = Paginator(posts, 10)
     total_pages = paginator.num_pages
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
 
+    # Calculations for highlighted 'current' page number
     lower_range = range(1, posts.number)
     upper_range = range(posts.number + 1, total_pages + 1)
 
