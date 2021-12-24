@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //   };    
 
     // Select all buttons
-    document.querySelectorAll('.nav-link').forEach(button => {
+    // document.querySelectorAll('.nav-link').forEach(button => {
 
-        // When a button is clicked, switch to that page
-        button.onclick = function() {
-            loadPage(this.dataset.page);
-        }
-    })
+    //     // When a button is clicked, switch to that page
+    //     button.onclick = function() {
+    //         loadPage(this.dataset.page);
+    //     }
+    // })
 
     
     // User clicks like button
@@ -83,7 +83,6 @@ function like(post, action) {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result);
         var likeCount = document.body.querySelector(`.like-count[id="${result.post}"]`);
         var likeButton = document.body.querySelector(`.like[data-id="${result.post}"]`)
         // If user clicked a 'like' button, change it to an 'unlike'
@@ -101,12 +100,13 @@ function like(post, action) {
 
 
 // User follows/ unfollows another user
-function follow(author, action) {
+function follow(author, action, follow_page) {
     fetch('follow', {
         method: "POST",
         body: JSON.stringify({
             author: author,
-            action: action
+            action: action,
+            follow_page: follow_page
         })
     })
     .then(response => response.json())
@@ -123,6 +123,11 @@ function follow(author, action) {
                 button.innerHTML = "Follow";
                 button.setAttribute("data-action", "follow")
             });          
+        }
+
+        // If unfollowing from 'follow' page, reload page
+        if (`${result.follow_page}` !== 'null') {
+            location.reload();
         }
     })
 }
@@ -166,6 +171,6 @@ function loadPage(page) {
         let newPost = document.getElementById('posts-display');
         newPost.style.display = 'none';
         console.log(newPost);
-    }
+    };
 
 }

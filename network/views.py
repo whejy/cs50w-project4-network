@@ -9,8 +9,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-
 from .models import User, Posts, Likes, Follow
+
 
 @csrf_exempt
 def index(request, following=None):
@@ -70,7 +70,15 @@ def like(request):
 # Follow/ unfollow a user
 @csrf_exempt
 @login_required
-def follow(request):
+def follow(request, follow=None):
+
+    # If unfollowing from 'following' page, prepare to reload following page
+    follow_page = follow
+
+    # If submitting a like from 'following' page, call 'like' function
+    if follow_page == 'like':
+        return like(request)
+
     data = json.loads(request.body)
     author = data.get("author", "")
     action = data.get("action", "")
@@ -90,7 +98,8 @@ def follow(request):
         )
         unfollow.delete()
 
-    return JsonResponse({"author": author, "action": action})
+    return JsonResponse({"author": author, "action": action, "follow_page": follow_page})
+
 
 @csrf_exempt
 def posts(request):
