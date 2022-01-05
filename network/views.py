@@ -101,6 +101,19 @@ def follow(request, follow=None):
     return JsonResponse({"author": author, "action": action, "follow_page": follow_page})
 
 
+# Delete a post
+@csrf_exempt
+def delete(request):
+    data = json.loads(request.body)
+    post_id = data.get("post", "")
+
+    post = Posts.objects.get(
+        id=post_id
+    )
+    post.delete()
+    return JsonResponse({"post": post_id})
+
+
 @csrf_exempt
 def posts(request):
 

@@ -36,7 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
     }
-    
+
+
+    // User clicks delete button
+    var deleteButton = document.querySelectorAll('.delete-button');
+    if (deleteButton) {
+        deleteButton.forEach(a => {
+            a.onclick = function() {
+                remove(this.dataset.id);
+            }
+        })
+    }
 
     // Submit new post data
     var loggedIn = document.querySelector('#create-post');
@@ -96,6 +106,18 @@ function like(post, action) {
         // Update like count
         likeCount.innerHTML = result.count;
     })
+}
+
+
+//User deletes a post
+function remove(post) {
+    fetch('delete', {
+        method: "POST",
+        body: JSON.stringify({
+            post: post
+        })
+    })
+    .then(window.location.href = "")
 }
 
 
