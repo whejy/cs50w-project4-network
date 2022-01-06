@@ -1,8 +1,3 @@
-.hidden {
-    display: none
-}
-
-
 .center {
     text-align: center;
 }
@@ -60,7 +55,7 @@
 }
 
 .post-content {
-    padding: 50px;
+    padding: 50px 50px 0 50px;
     font-size: xx-large;
     max-width: 65%;
     margin: auto;
@@ -77,6 +72,12 @@
     -ms-user-select: none; /* Internet Explorer/Edge */    
     cursor: pointer;
     color: blue;
+    display: inline-block;
+}
+
+
+.like-container {
+    display: block;
 }
 
 
@@ -93,12 +94,14 @@ textarea, .submit-button {
 }
 
 
-.submit-button {
+.submit-button, .update {
     width: 10%;
     height: 35px;
+    margin-top: 10px;
 }
 
 .fa-heart {
+    margin-top: 50px;
     font-size:14px;
     color:red;
 }
@@ -119,13 +122,24 @@ textarea, .submit-button {
     display: block;
 }
 
-.delete-button {
+.button {
     border:none;
     background-color: transparent;
     display: block;
-    margin:auto;
+    margin: auto;
 }
 
-.delete-button:focus {
+
+.button:focus {
     outline:none;
+}
+
+
+.edit {
+    font-size: 20px;
+    color:lightgrey;
+}
+
+.hidden {
+    display: none
 }

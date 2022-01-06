@@ -21,11 +21,17 @@
                 {% else %}
                     <span class="follow" data-action="follow" data-id="{{post.user}}">Follow <i class="fa fa-user-plus"></i></span>
                 {% endif %}
-                <i class="fas fa-user-minus"></i>                
             {% endif %}            
-            <div class="post-content">{{post.post}}</div>
-            <i class="fa fa-heart"></i>            
-            <span class="like-count" id="{{post.id}}">{{post.like_count}}</span>
+            <div class="post-content" id="post{{post.id}}">{{post.post}}</div>
+            {% if post.user == user %}
+                <button class="update{{post.id}} update hidden" id="update">Update</button>
+                <button class="update{{post.id}} update hidden">Cancel</button>
+                <button class="edit button" id="edit{{post.id}}" data-id="{{post.id}}"><i class="fa fa-edit"></i></button>
+            {% endif %}
+            <div class="like-container">
+                <i class="fa fa-heart"></i>            
+                <span class="like-count" id="{{post.id}}">{{post.like_count}}</span>
+            </div>
             {% if user.is_authenticated %}
                 {% if user.id in post.liked %}
                     <div class="like" data-action="unlike" data-id="{{post.id}}">Unlike</div>
@@ -35,7 +41,7 @@
             {% endif %}
             <span class="post-timestamp">
             {% if post.user == user %}
-                <button class="delete-button" data-id="{{post.id}}"><i class="fa fa-trash"></i></button>       
+                <button class="delete button" data-id="{{post.id}}"><i class="fa fa-trash"></i></button>       
             {% endif %}
             {{post.timestamp}}
             </span>

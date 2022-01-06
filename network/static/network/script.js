@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // User clicks delete button
-    var deleteButton = document.querySelectorAll('.delete-button');
+    var deleteButton = document.querySelectorAll('.delete');
     if (deleteButton) {
         deleteButton.forEach(a => {
             a.onclick = function() {
@@ -47,6 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
     }
+
+
+    // User clicks edit button
+    var editButton = document.querySelectorAll('.edit');
+    if (editButton) {
+        editButton.forEach(a => {
+            a.onclick = function() {
+                edit(this.dataset.id);
+            }
+        })
+    }    
+
 
     // Submit new post data
     var loggedIn = document.querySelector('#create-post');
@@ -118,6 +130,29 @@ function remove(post) {
         })
     })
     .then(window.location.href = "")
+}
+
+
+// Edit post
+function edit(post) {
+    var postID = document.querySelector(`#post${post}`);
+    var postContent = postID.innerHTML;
+    var editButton = document.querySelector(`#edit${post}`);
+    var updateButtons = document.querySelectorAll(`.update${post}`);
+    postID.innerHTML = `<textarea>${postContent}</textarea>`
+    editButton.style.display = "none";    
+    updateButtons.forEach(a => {
+        a.classList.remove('hidden'), a.onclick = function() {
+            if (this.id == "update") {
+                console.log(postID)
+                console.log(postID.value);
+            }
+            postID.innerHTML = postContent;
+            updateButtons.forEach(a => {
+                a.classList.add('hidden');
+                editButton.style.display = "block";
+            })
+    }});
 }
 
 
