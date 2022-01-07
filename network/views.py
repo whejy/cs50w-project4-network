@@ -114,6 +114,23 @@ def delete(request):
     return JsonResponse({"post": post_id})
 
 
+# Edit a post
+@csrf_exempt
+def edit(request):
+    data = json.loads(request.body)
+    updated = data.get("updated", "")
+    post_id = data.get("post", "")
+
+    post = Posts.objects.get(
+        id=post_id
+    )
+    
+    post.post = updated
+    post.save()
+
+    return JsonResponse("", safe=False)
+
+
 @csrf_exempt
 def posts(request):
 

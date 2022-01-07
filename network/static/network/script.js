@@ -135,19 +135,36 @@ function remove(post) {
 
 // Edit post
 function edit(post) {
-    var postID = document.querySelector(`#post${post}`);
-    var postContent = postID.innerHTML;
-    var editButton = document.querySelector(`#edit${post}`);
-    var updateButtons = document.querySelectorAll(`.update${post}`);
-    postID.innerHTML = `<textarea>${postContent}</textarea>`
-    editButton.style.display = "none";    
+    let postID = document.querySelector(`#post${post}`);
+    let postContent = postID.innerHTML;
+    let editButton = document.querySelector(`#edit${post}`);
+    let updateButtons = document.querySelectorAll(`.update${post}`);
+    // Display updated content
+    postID.innerHTML = `<textarea id="updated${post}">${postContent}</textarea>`;
+    let textarea = document.querySelector(`#updated${post}`)
+    // Focus text area and set cursor to end of text
+    textarea.focus();
+    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    // Hide edit button
+    editButton.style.display = "none";  
+    // Show 'update' and 'cancel' buttons, if 'update' clicked, update post content
     updateButtons.forEach(a => {
         a.classList.remove('hidden'), a.onclick = function() {
-            if (this.id == "update") {
-                console.log(postID)
-                console.log(postID.value);
+            var updatedContent = textarea.value;
+            // Do not update if post is empty or user clicks cancel
+            if (this.id == "update" && Boolean(updatedContent) == true) {
+                fetch('edit', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        post: post,
+                        updated: updatedContent
+                    })
+                })
+            } else {
+                updatedContent = postContent;
             }
-            postID.innerHTML = postContent;
+            // Update post, hide update buttons and show edit button
+            postID.innerHTML = updatedContent;
             updateButtons.forEach(a => {
                 a.classList.add('hidden');
                 editButton.style.display = "block";
@@ -172,12 +189,12 @@ function follow(author, action, follow_page) {
         // If user clicks a 'follow' button, change it to 'unfollow'
         if (result.action == "follow") {
             followButton.forEach(button => {
-                button.innerHTML = "Unfollow";
+                button.innerHTML = "Unfollow <i class='fa fa-user-times'>";
                 button.setAttribute("data-action", "unfollow")
             });
         } else {
             followButton.forEach(button => {
-                button.innerHTML = "Follow";
+                button.innerHTML = "Follow <i class='fa fa-user-plus'>";
                 button.setAttribute("data-action", "follow")
             });          
         }
