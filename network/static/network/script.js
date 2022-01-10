@@ -74,18 +74,19 @@ document.addEventListener('DOMContentLoaded', function() {
                       post: postData,
                     })
                   })
-                  .then(response => response.json())
-                  .then(result => {
-                    console.log(result);
-                    window.location.href = "";
-                  });
+                //   .then(response => response.json())
+                //   .then(result => {
+                //     console.log(result);
+                //     window.location.href = "";
+                //   });
 
                   // Render first page of pagination
                   document.getElementById('page').click();
             }
             
             else {
-                console.log("NO CONTENT");
+                let error = document.querySelector('#error-message');
+                error.innerHTML = "Post cannot be empty.";
             }
         });
     }
@@ -135,18 +136,22 @@ function remove(post) {
 
 // Edit post
 function edit(post) {
+
     let postID = document.querySelector(`#post${post}`);
     let postContent = postID.innerHTML;
     let editButton = document.querySelector(`#edit${post}`);
     let updateButtons = document.querySelectorAll(`.update${post}`);
+
     // Display updated content
     postID.innerHTML = `<textarea id="updated${post}">${postContent}</textarea>`;
     let textarea = document.querySelector(`#updated${post}`)
     // Focus text area and set cursor to end of text
     textarea.focus();
     textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+
     // Hide edit button
-    editButton.style.display = "none";  
+    editButton.style.display = "none";
+
     // Show 'update' and 'cancel' buttons, if 'update' clicked, update post content
     updateButtons.forEach(a => {
         a.classList.remove('hidden'), a.onclick = function() {
@@ -163,6 +168,7 @@ function edit(post) {
             } else {
                 updatedContent = postContent;
             }
+
             // Update post, hide update buttons and show edit button
             postID.innerHTML = updatedContent;
             updateButtons.forEach(a => {
@@ -241,10 +247,11 @@ function loadPage(page) {
     };
     
     // Hide New-Post form
-    if (page == 'following-page') {
-        let newPost = document.getElementById('posts-display');
-        newPost.style.display = 'none';
-        console.log(newPost);
-    };
+    // if (page == 'following-page') {
+    //     console.log(page);
+    //     let newPost = document.getElementById('posts-display');
+    //     newPost.style.display = 'none';
+    //     console.log(newPost);
+    // };
 
 }

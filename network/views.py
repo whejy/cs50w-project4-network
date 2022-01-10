@@ -17,10 +17,14 @@ def index(request, following=None):
 
     posts = (Posts.objects.all().order_by("-timestamp"))
 
+    # Boolean to hide new-post display on follow page
+    follow_page = False
+
     # If displaying 'following' page
     if following:
         followed = Follow.objects.filter(follower=request.user.id).values_list('followee')
         posts = Posts.objects.filter(user__in=followed).order_by("-timestamp")
+        follow_page = True
     
     # Generate pagination
     paginator = Paginator(posts, 10)
@@ -36,7 +40,7 @@ def index(request, following=None):
     if total_pages == 1:
         lower_range = 1
 
-    return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range})    
+    return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range, 'followPage': follow_page})    
 
 
 # Submit a 'like' or 'unlike'

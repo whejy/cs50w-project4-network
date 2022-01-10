@@ -143,3 +143,9 @@ textarea, .submit-button {
 .hidden {
     display: none
 }
+
+
+#error-message {
+    margin: 10px;
+    color: red;
+}

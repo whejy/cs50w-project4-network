@@ -3,10 +3,11 @@
 
 {% block body %}
 <div id="posts-page">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and followPage == False %}
     <section id="posts-display" class="page">
         <span id="new-post">
             <textarea placeholder="New post..."></textarea>
+            <div class="center" id="error-message"></div>
             <button class="submit-button" id="create-post">Post</button>
         </span>
     </section>
