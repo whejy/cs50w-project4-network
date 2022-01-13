@@ -8,6 +8,7 @@ urlpatterns = [
     path('<str:following>/', views.index, name="following"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
+    path('profile/<str:profile>/', views.index, name="profile"),
     path("register", views.register, name="register"),
 
     #API Routes
@@ -16,5 +17,6 @@ urlpatterns = [
     path("edit", views.edit, name="edit"),
     path("like", views.like, name="like"),
     path("follow", views.follow, name="follow"),
-    path("following/<follow>", views.follow, name="followpage")
+    path("following/<follow>", views.follow, name="followpage"),
+    path("profile/<str:profile>/<follow>", views.follow, name="profilepage")
 ]

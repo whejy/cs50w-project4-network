@@ -13,19 +13,55 @@ from .models import User, Posts, Likes, Follow
 
 
 @csrf_exempt
-def index(request, following=None):
+def index(request, following=None, profile=None):
 
     posts = (Posts.objects.all().order_by("-timestamp"))
-
-    # Boolean to hide new-post display on follow page
-    follow_page = False
+    followers = ''
+    hide_post_form = False
+    profile_page = False
+    is_following = False
 
     # If displaying 'following' page
     if following:
-        followed = Follow.objects.filter(follower=request.user.id).values_list('followee')
-        posts = Posts.objects.filter(user__in=followed).order_by("-timestamp")
-        follow_page = True
+
+        followed = Follow.objects.filter(
+            follower=request.user.id
+            ).values_list('followee')
+
+        posts = Posts.objects.filter(
+            user__in=followed
+            ).order_by("-timestamp")
+
+        hide_post_form = True
     
+    # If displaying a user's profile
+    if profile:
+        user_profile = User.objects.get(username=profile)
+
+        followers = Follow.objects.filter(
+                followee = user_profile
+            ).count()
+
+        following = Follow.objects.filter(
+                follower = user_profile
+            ).count()
+
+        posts = Posts.objects.filter(
+            user=user_profile
+        ).order_by('-timestamp')
+
+        # Check if logged-in user is following the currently visited profile
+        following_check = Follow.objects.filter(
+            followee=user_profile,
+            follower=request.user.id
+            )
+
+        if following_check:
+            is_following = True
+
+        hide_post_form = True
+        profile_page = True
+
     # Generate pagination
     paginator = Paginator(posts, 10)
     total_pages = paginator.num_pages
@@ -40,7 +76,17 @@ def index(request, following=None):
     if total_pages == 1:
         lower_range = 1
 
-    return render(request, "network/index.html", {'posts': posts, 'lower': lower_range, 'upper': upper_range, 'followPage': follow_page})    
+    return render(request, "network/index.html", {
+        'posts': posts,
+        'lower': lower_range,
+        'upper': upper_range,
+        'username': profile,
+        'profilePage': profile_page,
+        'following': following,
+        'followers': followers,
+        'isFollowing': is_following,
+        'hideForm': hide_post_form
+        })    
 
 
 # Submit a 'like' or 'unlike'
@@ -74,7 +120,8 @@ def like(request):
 # Follow/ unfollow a user
 @csrf_exempt
 @login_required
-def follow(request, follow=None):
+def follow(request, follow=None, profile=None):
+    
 
     # If unfollowing from 'following' page, prepare to reload following page
     follow_page = follow
@@ -103,6 +150,24 @@ def follow(request, follow=None):
         unfollow.delete()
 
     return JsonResponse({"author": author, "action": action, "follow_page": follow_page})
+
+
+# # Display user profile
+# @csrf_exempt
+# def profile(request, user):
+
+#     following = Follow.objects.filter(
+#             followee = request.user.id
+#         ).count()
+
+#     followers = Follow.objects.filter(
+#             follower = request.user.id
+#         ).count()
+
+#     print("followers", following) 
+#     print("following",followers)
+
+#     return render(request, "network/profile.html")
 
 
 # Delete a post

@@ -15,6 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
     //     }
     // })
 
+    // User clicks a user's name, load that user's profile
+    // document.querySelectorAll('.profile').forEach(button => {
+
+    //     button.onclick = function() {
+    //         loadProfile(this.dataset.profile)
+    //     }
+
+    // })
+
     
     // User clicks like button
     var likeButton = document.querySelectorAll('.like');
@@ -108,6 +117,7 @@ function like(post, action) {
     .then(result => {
         var likeCount = document.body.querySelector(`.like-count[id="${result.post}"]`);
         var likeButton = document.body.querySelector(`.like[data-id="${result.post}"]`)
+        
         // If user clicked a 'like' button, change it to an 'unlike'
         if (result.action == "like") {
             likeButton.innerHTML = "Unlike";
@@ -116,6 +126,7 @@ function like(post, action) {
             likeButton.innerHTML = "Like";
             likeButton.setAttribute("data-action", "like");            
         }
+
         // Update like count
         likeCount.innerHTML = result.count;
     })
@@ -213,45 +224,46 @@ function follow(author, action, follow_page) {
 }
 
 
-function loadPage(page) {
+// function loadPage(page) {
     
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(div => {
-        div.style.display = 'none';
-    });
+//     // Hide all pages
+//     document.querySelectorAll('.page').forEach(div => {
+//         div.style.display = 'none';
+//     });
+    
 
-    // Display requested page
-    if (page) {
-        document.querySelector(`#${page}`).style.display = 'block';
+//     // Display requested page
+//     if (page) {
+//         document.querySelector(`#${page}`).style.display = 'block';
 
-        // Clear out composition field
-        var newPost = document.querySelector('textarea');
-        if (newPost) {
-            newPost.value = '';
-        }
-    }
+//         // Clear out composition field
+//         var newPost = document.querySelector('textarea');
+//         if (newPost) {
+//             newPost.value = '';
+//         }
+//     }
 
-    // Display nested divs
-    if (page == 'posts-page') {
-        var posts = document.querySelector(`#${page}`).children
-        var postsArray = Array.from(posts);
-        postsArray.forEach(div => {
-            div.style.display = 'block';
-        })
+//     // Display nested divs
+//     if (page == 'posts-page') {
+//         var posts = document.querySelector(`#${page}`).children
+//         var postsArray = Array.from(posts);
+//         postsArray.forEach(div => {
+//             div.style.display = 'block';
+//         })
         
-        // Render first page of pagination
-        var firstPage = document.getElementById('page');
-        if (firstPage) {
-            firstPage.click();
-        }
-    };
+//         // Render first page of pagination
+//         var firstPage = document.getElementById('page');
+//         if (firstPage) {
+//             firstPage.click();
+//         }
+//     };
     
-    // Hide New-Post form
-    // if (page == 'following-page') {
-    //     console.log(page);
-    //     let newPost = document.getElementById('posts-display');
-    //     newPost.style.display = 'none';
-    //     console.log(newPost);
-    // };
+//     // Hide New-Post form
+//     // if (page == 'following-page') {
+//     //     console.log(page);
+//     //     let newPost = document.getElementById('posts-display');
+//     //     newPost.style.display = 'none';
+//     //     console.log(newPost);
+//     // };
 
-}
+// }
