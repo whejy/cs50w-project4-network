@@ -92,7 +92,7 @@ def index(request, following=None, profile=None):
 # Submit a 'like' or 'unlike'
 @csrf_exempt
 @login_required
-def like(request):
+def like(request, profile=None):
     data = json.loads(request.body)
     post_id = data.get("post", "")
     action = data.get("action", "")
@@ -122,7 +122,6 @@ def like(request):
 @login_required
 def follow(request, follow=None, profile=None):
     
-
     # If unfollowing from 'following' page, prepare to reload following page
     follow_page = follow
 
@@ -131,11 +130,17 @@ def follow(request, follow=None, profile=None):
         return like(request)
 
     data = json.loads(request.body)
-    author = data.get("author", "")
+
+    # If submitting a follow from a profile page
+    if profile:
+        author = profile
+    else: 
+        author = data.get("author", "")
+    
     action = data.get("action", "")
     followee = User.objects.get(username=author)
     follower = User.objects.get(username=request.user)
-
+    
     if action == "follow":
         follow = Follow.objects.create(
             followee=followee,
@@ -172,7 +177,7 @@ def follow(request, follow=None, profile=None):
 
 # Delete a post
 @csrf_exempt
-def delete(request):
+def delete(request, profile=None):
     data = json.loads(request.body)
     post_id = data.get("post", "")
 
@@ -185,7 +190,7 @@ def delete(request):
 
 # Edit a post
 @csrf_exempt
-def edit(request):
+def edit(request, profile=None):
     data = json.loads(request.body)
     updated = data.get("updated", "")
     post_id = data.get("post", "")

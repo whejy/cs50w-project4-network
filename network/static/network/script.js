@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (followButton) {
         followButton.forEach(a => {
             a.onclick = function() {
-                follow(this.dataset.id, this.dataset.action);
+                follow(this.dataset.id, this.dataset.action, this.dataset.count);
             }
         })
     }
@@ -191,7 +191,7 @@ function edit(post) {
 
 
 // User follows/ unfollows another user
-function follow(author, action, follow_page) {
+function follow(author, action, count=null, follow_page) {
     fetch('follow', {
         method: "POST",
         body: JSON.stringify({
@@ -203,16 +203,25 @@ function follow(author, action, follow_page) {
     .then(response => response.json())
     .then(result => {
         var followButton = document.querySelectorAll(`.follow[data-id="${result.author}"]`)
-        // If user clicks a 'follow' button, change it to 'unfollow'
+        // If user clicks a 'follow' button, change it to 'unfollow'. Also update
+        // follower count if on a profile page
+        if (count) {
+            var countUpdate = document.querySelector('#follow-count');
+            var num = parseInt(countUpdate.innerHTML);
+        } else {
+            var countUpdate = ""
+        }
         if (result.action == "follow") {
             followButton.forEach(button => {
                 button.innerHTML = "Unfollow <i class='fa fa-user-times'>";
-                button.setAttribute("data-action", "unfollow")
+                button.setAttribute("data-action", "unfollow");
+                countUpdate.innerHTML = num+1;
             });
         } else {
             followButton.forEach(button => {
                 button.innerHTML = "Follow <i class='fa fa-user-plus'>";
-                button.setAttribute("data-action", "follow")
+                button.setAttribute("data-action", "follow");
+                countUpdate.innerHTML = num-1;
             });          
         }
 

@@ -14,13 +14,13 @@
     {% elif hideForm == True and profilePage %}
     <header>USER: {{username}}</header>
     <section id="follow-details" class="page">
-        Followers: {{followers}}<br>
+        Followers: <span id="follow-count">{{followers}}</span><br>
         Following: {{following}}<br>
         {% if user.username != username %}
             {% if isFollowing %}
-                <span class="follow" data-action="unfollow" data-id="{{post.user}}">Unfollow <i class="fa fa-user-times"></i></span>
+                <span class="follow" data-action="unfollow" data-id="{{username}}" data-count="True">Unfollow <i class="fa fa-user-times"></i></span>
             {% else %}
-                <span class="follow" data-action="follow" data-id="{{post.user}}">Follow <i class="fa fa-user-plus"></i></span>
+                <span class="follow" data-action="follow" data-id="{{username}}" data-count="True">Follow <i class="fa fa-user-plus"></i></span>
             {% endif %}
         {% endif %}
     </section>
