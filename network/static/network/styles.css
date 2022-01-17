@@ -1,8 +1,3 @@
-.center {
-    text-align: center;
-}
-
-
 .empty {
     font-weight: lighter;
     font-size: larger;
@@ -23,6 +18,7 @@
 
 .post {
     border:lightgray 1px solid;
+    border-radius: 20px;
     padding: 25px;
     margin-bottom: 20px;
     position: relative;
@@ -98,6 +94,7 @@ textarea, .submit-button {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
+    border-radius: 5px;
 }
 
 
@@ -142,10 +139,40 @@ textarea, .submit-button {
 }
 
 
+#profile-title {
+    margin-top:15px;
+    margin-bottom:15px;
+    color: darkslategray;
+    font-size: 50px;
+    font-style:italic;
+}
+
+
+.follow-count-details {
+   font-style: italic;
+   font-weight: lighter;
+}
+
+
+#follow-details {
+    position: relative;
+    margin-top: 10px;
+}
+
+
+.profile-follow {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translate(-50%,-50%);
+}
+
+
 .edit {
     font-size: 20px;
     color:lightgrey;
 }
+
 
 .hidden {
     display: none
@@ -155,4 +182,9 @@ textarea, .submit-button {
 #error-message {
     margin: 10px;
     color: red;
+}
+
+
+.center {
+    text-align: center;
 }
