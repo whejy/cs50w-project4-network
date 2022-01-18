@@ -83,15 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
                       post: postData,
                     })
                   })
-
-
-                //   Render first page of pagination or refresh page
-                  let firstPage = document.getElementById('page1');
-                  if (firstPage) {
-                      firstPage.click()
-                  } else {
-                    window.location.href = "";
-                  }
+                .then(() => {
+                    // Render first page of pagination or refresh page
+                    let firstPage = document.getElementById('page1');
+                    if (firstPage) {
+                        firstPage.click()
+                    } else {
+                        window.location.href = "";
+                    }                    
+                })
             }
             
             else {
@@ -138,6 +138,7 @@ function like(post, action) {
 function remove(post, target) {
     // Remove post from display
     const targetPost = target.parentElement.parentElement;
+    console.log(targetPost)
     targetPost.style.animationPlayState = 'running';
     targetPost.addEventListener('animationend', () => {
         targetPost.remove();

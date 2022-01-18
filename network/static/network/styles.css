@@ -1,9 +1,21 @@
 @keyframes hide {
     0% {
         opacity: 1;
+        height: initial;
+        padding: 25px;
+        margin-bottom: 20px;        
+    }
+    75% {
+        opacity: 0;
+        height: initial;
+        padding: 25px;
+        margin-bottom: 20px;
     }
     100% {
         opacity: 0;
+        height: 0px;
+        padding: 0px;
+        margin-bottom: 0px;        
     }
 }
 
@@ -30,10 +42,8 @@
     position: relative;
     border:lightgray 1px solid;
     border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 20px;
     animation-name: hide;
-    animation-duration: 0.5s;
+    animation-duration: 0.2s;
     animation-fill-mode: forwards;
     animation-play-state: paused;    
 }
