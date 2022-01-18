@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (deleteButton) {
         deleteButton.forEach(a => {
             a.onclick = function() {
-                remove(this.dataset.id);
+                remove(this.dataset.id, this);
             }
         })
     }
@@ -83,14 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
                       post: postData,
                     })
                   })
-                //   .then(response => response.json())
-                //   .then(result => {
-                //     console.log(result);
-                //     window.location.href = "";
-                //   });
 
-                  // Render first page of pagination
-                  document.getElementById('page').click();
+
+                //   Render first page of pagination or refresh page
+                  let firstPage = document.getElementById('page1');
+                  if (firstPage) {
+                      firstPage.click()
+                  } else {
+                    window.location.href = "";
+                  }
             }
             
             else {
@@ -134,14 +135,19 @@ function like(post, action) {
 
 
 //User deletes a post
-function remove(post) {
+function remove(post, target) {
+    // Remove post from display
+    const targetPost = target.parentElement.parentElement;
+    targetPost.style.animationPlayState = 'running';
+    targetPost.addEventListener('animationend', () => {
+        targetPost.remove();
+    })    
     fetch('delete', {
         method: "POST",
         body: JSON.stringify({
             post: post
         })
     })
-    .then(window.location.href = "")
 }
 
 
