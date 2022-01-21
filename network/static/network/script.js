@@ -138,7 +138,6 @@ function like(post, action) {
 function remove(post, target) {
     // Remove post from display
     const targetPost = target.parentElement.parentElement;
-    console.log(targetPost)
     targetPost.style.animationPlayState = 'running';
     targetPost.addEventListener('animationend', () => {
         targetPost.remove();

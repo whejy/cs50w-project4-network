@@ -1,21 +1,21 @@
 @keyframes hide {
     0% {
         opacity: 1;
-        height: initial;
+        max-height: initial;
         padding: 25px;
         margin-bottom: 20px;        
     }
     75% {
         opacity: 0;
-        height: initial;
+        max-height: initial;
         padding: 25px;
         margin-bottom: 20px;
     }
     100% {
         opacity: 0;
-        height: 0px;
+        max-height: 0px;
         padding: 0px;
-        margin-bottom: 0px;        
+        margin-bottom: 0px;      
     }
 }
 
