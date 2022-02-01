@@ -1,30 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-    // Display posts page on login
-    // window.onload=function(){
-    //     document.getElementById('posts').click();
-    //   };    
-
-    // Select all buttons
-    // document.querySelectorAll('.nav-link').forEach(button => {
-
-    //     // When a button is clicked, switch to that page
-    //     button.onclick = function() {
-    //         loadPage(this.dataset.page);
-    //     }
-    // })
-
-    // User clicks a user's name, load that user's profile
-    // document.querySelectorAll('.profile').forEach(button => {
-
-    //     button.onclick = function() {
-    //         loadProfile(this.dataset.profile)
-    //     }
-
-    // })
-
-    
     // User clicks like button
     var likeButton = document.querySelectorAll('.like');
     if (likeButton) {
@@ -237,48 +213,3 @@ function follow(author, action, count=null, follow_page) {
         }
     })
 }
-
-
-// function loadPage(page) {
-    
-//     // Hide all pages
-//     document.querySelectorAll('.page').forEach(div => {
-//         div.style.display = 'none';
-//     });
-    
-
-//     // Display requested page
-//     if (page) {
-//         document.querySelector(`#${page}`).style.display = 'block';
-
-//         // Clear out composition field
-//         var newPost = document.querySelector('textarea');
-//         if (newPost) {
-//             newPost.value = '';
-//         }
-//     }
-
-//     // Display nested divs
-//     if (page == 'posts-page') {
-//         var posts = document.querySelector(`#${page}`).children
-//         var postsArray = Array.from(posts);
-//         postsArray.forEach(div => {
-//             div.style.display = 'block';
-//         })
-        
-//         // Render first page of pagination
-//         var firstPage = document.getElementById('page');
-//         if (firstPage) {
-//             firstPage.click();
-//         }
-//     };
-    
-//     // Hide New-Post form
-//     // if (page == 'following-page') {
-//     //     console.log(page);
-//     //     let newPost = document.getElementById('posts-display');
-//     //     newPost.style.display = 'none';
-//     //     console.log(newPost);
-//     // };
-
-// }

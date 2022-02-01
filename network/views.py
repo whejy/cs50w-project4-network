@@ -157,24 +157,6 @@ def follow(request, follow=None, profile=None):
     return JsonResponse({"author": author, "action": action, "follow_page": follow_page})
 
 
-# # Display user profile
-# @csrf_exempt
-# def profile(request, user):
-
-#     following = Follow.objects.filter(
-#             followee = request.user.id
-#         ).count()
-
-#     followers = Follow.objects.filter(
-#             follower = request.user.id
-#         ).count()
-
-#     print("followers", following) 
-#     print("following",followers)
-
-#     return render(request, "network/profile.html")
-
-
 # Delete a post
 @csrf_exempt
 def delete(request, profile=None):
