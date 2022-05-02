@@ -22,7 +22,7 @@ Clone repository
 
 ```
 git clone https://github.com/whejy/cs50w-project4-network.git
-cd mail
+cd project4
 ```
 
 Install dependencies
