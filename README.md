@@ -1,7 +1,11 @@
 # Network
 
 Project 4 of CS50w Web Programming with Python and JavaScript.\
+<<<<<<< HEAD
 Design a Twitter-like social network website for making posts and following users.
+=======
+Design a Twitter-like social network website for making posts and following users. [Demonstration video](https://youtu.be/XgmpUVYpxCI)
+>>>>>>> web50/projects/2020/x/network
 
 [Full project specification](https://cs50.harvard.edu/web/2020/projects/4/network/)
 
@@ -13,8 +17,12 @@ Features:
 -View user profiles\
 -View all/ specific-user or followed-user posts
 
+<<<<<<< HEAD
 [Demonstration video](https://youtu.be/XgmpUVYpxCI)
 
+=======
+![](screenshots/home.png)
+>>>>>>> web50/projects/2020/x/network
 
 ## Setup
 
